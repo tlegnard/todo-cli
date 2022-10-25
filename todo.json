@@ -1,0 +1,6 @@
+{
+    "todo_list": [
+    {"taskId":1, "task":"start todo CLI project", "status":"complete"},
+    {"taskId":2, "task":"Finish parsing JSON", "status":"incomplete"}
+   ]
+}
