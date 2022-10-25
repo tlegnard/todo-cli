@@ -19,6 +19,16 @@ type Todo struct {
 	Status string `json:"status"`
 }
 
+func isFlagPassed(name string) bool {
+	found := false
+	flag.Visit(func(f *flag.Flag) {
+		if f.Name == name {
+			found = true
+		}
+	})
+	return found
+}
+
 func parseTodoList() TodoList {
 	jsonFile, err := os.Open("todo.json")
 	if err != nil {
@@ -44,20 +54,28 @@ func printTodoList(todoList TodoList) {
 	}
 }
 
+func addTask(item string) {
+	var task Todo
+	task.TaskId = 3
+	task.Task = item
+	task.Status = "incomplete"
+	fmt.Println(task.Task)
+}
+
 func main() {
-	//TODO (ha)
-	//link -list flag to printTodoList func
-	//write addTodo func
-	//link -item to addTodo func
-	todoItem := flag.String("item", "task description", "a string var")
-	todo_list := flag.String("list", "list all todos", "str var with name of task list")
+	addItem := flag.String("item", "task description", "a string var")
+	viewList := flag.Bool("list", false, "view task list")
 
 	flag.Parse()
 
-	fmt.Println("word:", *todoItem)
-	fmt.Println("numb:", *todo_list)
-
 	var todoList TodoList
 	todoList = parseTodoList()
-	printTodoList(todoList)
+	if *viewList {
+		printTodoList(todoList)
+	}
+
+	if isFlagPassed("item") {
+		addTask(*addItem)
+	}
+
 }
