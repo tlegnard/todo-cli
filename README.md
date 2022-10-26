@@ -9,7 +9,7 @@ TODO (ha)
 - [X] split read/print into separate functions
 - [X] link -list flag to printTodoList func
 - [X] write addTodo func
-  - [ ] add default status "incomplete" and increment index of TaskId for new tasks
+  - [X] add default status "incomplete" and increment index of TaskId for new tasks
 - [X] link -item to addTodo func
 - [ ] add delete item flag and function
 - [ ] add update task status item

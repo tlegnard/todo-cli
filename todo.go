@@ -29,7 +29,7 @@ func isFlagPassed(name string) bool {
 	return found
 }
 
-func parseTodoList() TodoList {
+func parseJSON() TodoList {
 	jsonFile, err := os.Open("todo.json")
 	if err != nil {
 		fmt.Println(err)
@@ -43,6 +43,14 @@ func parseTodoList() TodoList {
 	json.Unmarshal(byteValue, &todoList)
 
 	return todoList
+
+}
+
+func saveJson(todoList TodoList) {
+	fmt.Println("Saving ToDo List to JSON")
+	file, _ := json.MarshalIndent(todoList, "", " ")
+
+	_ = ioutil.WriteFile("todo.json", file, 0644)
 
 }
 
@@ -82,13 +90,14 @@ func main() {
 	flag.Parse()
 
 	var todoList TodoList
-	todoList = parseTodoList()
+	todoList = parseJSON()
 	if *viewList {
 		printTodoList(todoList)
 	}
 
 	if isFlagPassed("item") {
 		todoList = addTask(*addItem, todoList)
+		saveJson(todoList)
 		printTodoList((todoList))
 	}
 
