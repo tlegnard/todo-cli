@@ -54,12 +54,25 @@ func printTodoList(todoList TodoList) {
 	}
 }
 
-func addTask(item string) {
-	var task Todo
-	task.TaskId = 3
-	task.Task = item
-	task.Status = "incomplete"
-	fmt.Println(task.Task)
+func addTask(item string, todoList TodoList) TodoList {
+	//var task Todo
+	// task.TaskId = getMaxId(todoList) //max id found
+	// task.Task = item
+	// task.Status = "incomplete"
+	//fmt.Println("New Task added: \n" + strconv.Itoa(task.TaskId) + " " + task.Task + task.Status)
+	todoList.TodoList = append(todoList.TodoList, Todo{getMaxId(todoList), item, "incomplete"})
+	return todoList
+}
+
+func getMaxId(todoList TodoList) int {
+
+	var maxVal int = 0
+	for _, task := range todoList.TodoList {
+		if task.TaskId > maxVal {
+			maxVal = task.TaskId
+		}
+	}
+	return maxVal + 1
 }
 
 func main() {
@@ -75,7 +88,8 @@ func main() {
 	}
 
 	if isFlagPassed("item") {
-		addTask(*addItem)
+		todoList = addTask(*addItem, todoList)
+		printTodoList((todoList))
 	}
 
 }
