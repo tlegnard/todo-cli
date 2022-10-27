@@ -1,24 +1,24 @@
 {
- "todo_list": [
-  {
-   "taskId": 1,
-   "task": "start todo CLI project",
-   "status": "complete"
-  },
-  {
-   "taskId": 2,
-   "task": "Finish parsing JSON",
-   "status": "incomplete"
-  },
-  {
-   "taskId": 3,
-   "task": "test item 1",
-   "status": "incomplete"
-  },
-  {
-   "taskId": 4,
-   "task": "test item 2",
-   "status": "incomplete"
-  }
- ]
-}
+    "todo_list": [
+     {
+      "taskId": 1,
+      "task": "start todo CLI project",
+      "status": "complete"
+     },
+     {
+      "taskId": 2,
+      "task": "Finish parsing JSON",
+      "status": "incomplete"
+     },
+     {
+      "taskId": 3,
+      "task": "test item 1",
+      "status": "incomplete"
+     },
+     {
+      "taskId": 4,
+      "task": "test item 2",
+      "status": "incomplete"
+     }
+    ]
+   }

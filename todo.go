@@ -56,24 +56,38 @@ func saveJson(todoList TodoList) {
 
 func printTodoList(todoList TodoList) {
 	for i := 0; i < len(todoList.TodoList); i++ {
-		fmt.Print("Task # : " + strconv.Itoa(todoList.TodoList[i].TaskId) + " | ")
+		fmt.Print("Task # : " +
+			strconv.Itoa(todoList.TodoList[i].TaskId) + " | ")
 		fmt.Print("Description:  " + todoList.TodoList[i].Task + " | ")
 		fmt.Println(" Status: " + todoList.TodoList[i].Status + " | ")
 	}
 }
 
 func addTask(item string, todoList TodoList) TodoList {
-	//var task Todo
-	// task.TaskId = getMaxId(todoList) //max id found
-	// task.Task = item
-	// task.Status = "incomplete"
-	//fmt.Println("New Task added: \n" + strconv.Itoa(task.TaskId) + " " + task.Task + task.Status)
-	todoList.TodoList = append(todoList.TodoList, Todo{getMaxId(todoList), item, "incomplete"})
+	todoList.TodoList = append(
+		todoList.TodoList,
+		Todo{
+			getMaxId(todoList),
+			item,
+			"incomplete"})
+	return todoList
+}
+
+func deleteTask(id int, todoList TodoList) TodoList {
+	for i, task := range todoList.TodoList {
+		if task.TaskId == id {
+			//todoList.TodoList = append(todoList.TodoList[:i], todoList.TodoList[i+1]...)
+			fmt.Printf("Deleting task: ")
+			fmt.Println(task)
+			todoList.TodoList = append(todoList.TodoList[:i], todoList.TodoList[i+1:]...)
+		}
+	}
+	//printTodoList(todoList)
 	return todoList
 }
 
 func getMaxId(todoList TodoList) int {
-
+	//send back the highest value ID and increment
 	var maxVal int = 0
 	for _, task := range todoList.TodoList {
 		if task.TaskId > maxVal {
@@ -84,8 +98,9 @@ func getMaxId(todoList TodoList) int {
 }
 
 func main() {
-	addItem := flag.String("item", "task description", "a string var")
+	addItem := flag.String("add", "task description", "a string var")
 	viewList := flag.Bool("list", false, "view task list")
+	deleteItem := flag.Int("delete", 999, "task ID")
 
 	flag.Parse()
 
@@ -95,10 +110,16 @@ func main() {
 		printTodoList(todoList)
 	}
 
-	if isFlagPassed("item") {
+	if isFlagPassed("add") {
 		todoList = addTask(*addItem, todoList)
 		saveJson(todoList)
 		printTodoList((todoList))
+	}
+
+	if isFlagPassed("delete") {
+		todoList = deleteTask(*deleteItem, todoList)
+		saveJson((todoList))
+		printTodoList(todoList)
 	}
 
 }

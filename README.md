@@ -11,7 +11,11 @@ TODO (ha)
 - [X] write addTodo func
   - [X] add default status "incomplete" and increment index of TaskId for new tasks
 - [X] link -item to addTodo func
-- [ ] add delete item flag and function
+- [X] add delete item flag and function
 - [ ] add update task status item
 - [ ] migrate json to sqlite or better storage method
   - [ ] add schema
+- [ ] add todolist initialization (goes by default if no file found)
+- [ ] Update this readme to provide usage
+- [ ] add go module
+  - [ ] move separate functions to new file, saved in go mod
