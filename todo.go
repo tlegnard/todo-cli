@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -86,6 +87,23 @@ func deleteTask(id int, todoList TodoList) TodoList {
 	return todoList
 }
 
+func updateTaskStatus(id int, todoList TodoList) TodoList {
+
+	//if no -status flag entered, ask for status ID listed above
+	for i, task := range todoList.TodoList {
+		if task.TaskId == id {
+			fmt.Println(
+				"Updating Task Status for " + strconv.Itoa(task.TaskId) + ": " + task.Task)
+			fmt.Printf("update task status ['Incomplete', 'In Progress', 'Complete']: ")
+			reader := bufio.NewReader(os.Stdin)
+			text, _ := reader.ReadString('\n')
+			todoList.TodoList[i].Status = text
+
+		}
+	}
+	return todoList
+}
+
 func getMaxId(todoList TodoList) int {
 	//send back the highest value ID and increment
 	var maxVal int = 0
@@ -101,6 +119,7 @@ func main() {
 	addItem := flag.String("add", "task description", "a string var")
 	viewList := flag.Bool("list", false, "view task list")
 	deleteItem := flag.Int("delete", 999, "task ID")
+	updateItem := flag.Int("update", 999, "taskId")
 
 	flag.Parse()
 
@@ -120,6 +139,13 @@ func main() {
 		todoList = deleteTask(*deleteItem, todoList)
 		saveJson((todoList))
 		printTodoList(todoList)
+	}
+
+	if isFlagPassed("update") {
+		printTodoList(todoList)
+		todoList = updateTaskStatus(*updateItem, todoList)
+		saveJson(todoList)
+		fmt.Println("Task Status for " + strconv.Itoa(*updateItem) + " updated")
 	}
 
 }
