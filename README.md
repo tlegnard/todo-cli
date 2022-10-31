@@ -19,11 +19,3 @@ If using for the first time, `./todo` will start a `todo.json` and ask for a str
 -update int
     taskId 
 ```
-
-
-TODO (ha)
-- [ ] print to-do list if no flag given by default
-- [ ] migrate json to sqlite or better storage method
-  - [ ] add schema
-- [ ] add go module
-  - [ ] move separate functions to new file, saved in go mod

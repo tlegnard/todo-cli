@@ -137,24 +137,20 @@ func main() {
 
 	if *viewList {
 		printTodoList(todoList)
-	}
-
-	if isFlagPassed("add") {
+	} else if isFlagPassed("add") {
 		todoList = addTask(*addItem, todoList)
 		saveJson(todoList)
 		printTodoList((todoList))
-	}
-
-	if isFlagPassed("delete") {
+	} else if isFlagPassed("delete") {
 		todoList = deleteTask(*deleteItem, todoList)
 		saveJson((todoList))
 		printTodoList(todoList)
-	}
-
-	if isFlagPassed("update") {
+	} else if isFlagPassed("update") {
 		printTodoList(todoList)
 		todoList = updateTaskStatus(*updateItem, todoList)
 		saveJson(todoList)
 		fmt.Println("Task Status for " + strconv.Itoa(*updateItem) + " updated")
+	} else {
+		printTodoList((todoList))
 	}
 }
