@@ -30,12 +30,12 @@ func isFlagPassed(name string) bool {
 	return found
 }
 
-func parseJSON() TodoList {
+func parseJSON() (TodoList, error) {
 	jsonFile, err := os.Open("todo.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("Opening Stored Todo List.")
+
 	defer jsonFile.Close()
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
@@ -43,8 +43,7 @@ func parseJSON() TodoList {
 
 	json.Unmarshal(byteValue, &todoList)
 
-	return todoList
-
+	return todoList, err
 }
 
 func saveJson(todoList TodoList) {
@@ -56,6 +55,7 @@ func saveJson(todoList TodoList) {
 }
 
 func printTodoList(todoList TodoList) {
+	fmt.Println("Here is your Todo List:")
 	for i := 0; i < len(todoList.TodoList); i++ {
 		fmt.Print("Task # : " +
 			strconv.Itoa(todoList.TodoList[i].TaskId) + " | ")
@@ -96,8 +96,8 @@ func updateTaskStatus(id int, todoList TodoList) TodoList {
 				"Updating Task Status for " + strconv.Itoa(task.TaskId) + ": " + task.Task)
 			fmt.Printf("update task status ['Incomplete', 'In Progress', 'Complete']: ")
 			reader := bufio.NewReader(os.Stdin)
-			text, _ := reader.ReadString('\n')
-			todoList.TodoList[i].Status = text
+			text, _, _ := reader.ReadLine()
+			todoList.TodoList[i].Status = string(text)
 
 		}
 	}
@@ -124,7 +124,17 @@ func main() {
 	flag.Parse()
 
 	var todoList TodoList
-	todoList = parseJSON()
+
+	var err error
+	todoList, err = parseJSON()
+	if err != nil {
+		fmt.Println("Add your first task: ")
+		reader := bufio.NewReader(os.Stdin)
+		text, _, _ := reader.ReadLine()
+		todoList = addTask(string(text), todoList)
+		saveJson((todoList))
+	}
+
 	if *viewList {
 		printTodoList(todoList)
 	}
@@ -147,5 +157,4 @@ func main() {
 		saveJson(todoList)
 		fmt.Println("Task Status for " + strconv.Itoa(*updateItem) + " updated")
 	}
-
 }
